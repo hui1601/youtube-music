@@ -46,6 +46,12 @@ export const SyncedLine = (props: SyncedLineProps) => {
     return props.line.text;
   });
 
+  const translate = createMemo(() => {
+    if (!props.line.translation) return '';
+
+    return props.line.translation;
+  });
+
   const [romanization, setRomanization] = createSignal('');
 
   createEffect(async () => {
@@ -63,7 +69,7 @@ export const SyncedLine = (props: SyncedLineProps) => {
     setRomanization(canonicalize(result));
   });
 
-  if (!text()) {
+  if (!text() && !props.line.translation) {
     return (
       <yt-formatted-string
         text={{
@@ -122,7 +128,6 @@ export const SyncedLine = (props: SyncedLineProps) => {
               }}
             </For>
           </span>
-
           <Show
             when={
               config()?.romanization &&
@@ -131,6 +136,28 @@ export const SyncedLine = (props: SyncedLineProps) => {
           >
             <span class="romaji">
               <For each={romanization().split(' ')}>
+                {(word, index) => {
+                  return (
+                    <span
+                      style={{
+                        'transition-delay': `${index() * 0.05}s`,
+                        'animation-delay': `${index() * 0.05}s`,
+                      }}
+                    >
+                      <yt-formatted-string
+                        text={{
+                          runs: [{ text: `${word} ` }],
+                        }}
+                      />
+                    </span>
+                  );
+                }}
+              </For>
+            </span>
+          </Show>
+          <Show when={props.line.translation}>
+            <span class="translation-line">
+              <For each={translate().split(' ')}>
                 {(word, index) => {
                   return (
                     <span
