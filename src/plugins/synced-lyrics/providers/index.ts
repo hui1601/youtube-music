@@ -4,7 +4,7 @@ import { createMemo } from 'solid-js';
 
 import { SongInfo } from '@/providers/song-info';
 
-import { Alsong } from './Alsong';
+import { Betasong } from './Betasong';
 import { LRCLib } from './LRCLib';
 import { LyricsGenius } from './LyricsGenius';
 import { YTMusic } from './YTMusic';
@@ -17,7 +17,7 @@ export const providers = {
   YTMusic: new YTMusic(),
   LRCLib: new LRCLib(),
   LyricsGenius: new LyricsGenius(),
-  Alsong: new Alsong(),
+  Betasong: new Betasong(),
   // MusixMatch: new MusixMatch(),
   // Megalobiz: new Megalobiz(), // Disabled because it is too unstable and slow
 } as const;
