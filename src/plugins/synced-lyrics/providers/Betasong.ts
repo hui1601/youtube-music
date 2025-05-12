@@ -19,14 +19,14 @@ export class Betasong implements LyricProvider {
     }
 
     const data = (await response.json()) as LyricsBetasongSearchResult;
-    // Filter out results with duration difference greater than 5 seconds
+    // Filter out results with duration difference greater than 1 seconds
     const filteredData = data.filter((item) => {
       const durationDiff = Math.abs(item.duration - songDuration);
-      return durationDiff <= 5 * 1000;
+      return durationDiff <= 1 * 1000;
     });
     // Sort by duration difference
     filteredData.sort((a, b) => Math.abs(a.duration - songDuration) - Math.abs(b.duration - songDuration));
-    const closestHit = data[0];
+    const closestHit = filteredData[0];
     if (!closestHit) {
       return null;
     }
