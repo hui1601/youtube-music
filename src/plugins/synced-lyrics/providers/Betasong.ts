@@ -10,7 +10,7 @@ export class Betasong implements LyricProvider {
     const query = new URLSearchParams({
       title,
       artist,
-      duration: songDuration.toString(),
+      duration: (songDuration * 1000).toString(),
     });
 
     const response = await fetch(`${this.baseUrl}/api3/lyrics/search.json?${query}`);
@@ -21,7 +21,7 @@ export class Betasong implements LyricProvider {
     const data = (await response.json()) as LyricsBetasongSearchResult;
     // Filter out results with duration difference greater than 1 seconds
     const filteredData = data.filter((item) => {
-      const durationDiff = Math.abs(item.duration - songDuration);
+      const durationDiff = Math.abs(item.duration - songDuration * 1000);
       return durationDiff <= 1 * 1000;
     });
     // Sort by duration difference
